@@ -1,0 +1,28 @@
+<head>
+  <title>Meteor Streams - Server to Client Notifications</title>
+</head>
+
+<body>
+  {{> main}}
+  {{> sprite}}
+</body>
+
+<template name='main'>
+  <div class='container'>
+    <h2>Server to Client Notifications</h2>
+    <hr/>
+    <button id='randomize-pos' class='btn btn-small btn-danger'>
+      randomize pos
+    </button><br>
+    <button id='clear-messages' class='btn btn-small btn-danger'>
+      Clear Messages
+    </button><br>
+    <div id='messages'>
+    </div>
+  </div>
+</template>
+
+
+<template name="sprite" >
+  <div id="thesprite" class="sprite"></div>
+</template>

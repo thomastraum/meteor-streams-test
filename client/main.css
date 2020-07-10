@@ -1,0 +1,12 @@
+body {
+  padding: 10px;
+  font-family: sans-serif;
+}
+
+.sprite {
+  position: absolute;
+  top:0;
+  background-color: #000;
+  width:10px;
+  height:10px;
+}
