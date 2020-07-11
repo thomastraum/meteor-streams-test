@@ -6,7 +6,7 @@ class mouseSprite {
 
   createSprite(){
     this.sprite = document.createElement("div");
-    this.sprite.setAttribute("id", "thesprite"); //this.id);
+    this.sprite.setAttribute("id", this.id);
     this.sprite.setAttribute("class", "sprite");
     document.body.appendChild(this.sprite);
     console.log(this.sprite);

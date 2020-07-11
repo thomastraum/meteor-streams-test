@@ -21,3 +21,9 @@ body {
   width:10px;
   height:10px;
 }
+
+.users-counter{
+  position: absolute;
+  top: 0;
+  left:0;
+}

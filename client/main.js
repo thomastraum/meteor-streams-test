@@ -1,26 +1,46 @@
+import { Template } from 'meteor/templating';
 import { Notifications } from '/api/notifications.js';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { Session } from 'meteor/session'
+
 import { mouseSprite } from './mousesprite';
+
+import './users-show.js';
 import './main.html';
 
-function moveTo(x,y) {
-  document.getElementById("thesprite").style.transform = `translate(${x}px,${y}px)`;
-}
+const allMice = [];
+const allIds = [];
+
+Template.body.onCreated(function() {
+  // this.autorun(()=>{
+  //   Session.set('usersNumber', allIds.length);
+  // })
+});
 
 //listen on notifications on the message event
 Notifications.on('message', function(message) {
   // console.log(this.userId,this.subscriptionId);
 
-  moveTo( message.x * $('body').width(), message.y *  $('body').height() );
-  // var completeMessage = `${message.x} : ${message.y}`;
-  // $('#messages').prepend('<div>' + completeMessage + '</div>');
+  if (!allIds.includes(this.subscriptionId)) {
+      const mouse = new mouseSprite( this.subscriptionId );
+      allMice.push(mouse);
+      allIds.push(this.subscriptionId);
+      Session.set('usersNumber', allIds.length);
+      console.log(allIds.length);
+  }
+
+  for (var i = 0; i < allMice.length; i++) {
+    const myMice = allMice[i];
+    if (this.subscriptionId === myMice.id) {
+      myMice.moveSprite( message.x * $('body').width(), message.y *  $('body').height())
+    }
+  }
 });
 
 
 Template.body.rendered = function(){
-  myMouse1 = new mouseSprite();
 };
 
-//simple clear message action
 Template.body.events({
   'mousemove ' : function(e) {
     const percentOffsetX = e.offsetX /  $('body').width();
