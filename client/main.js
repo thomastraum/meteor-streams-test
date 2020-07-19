@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
 import { Notifications } from '/api/notifications.js';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Session } from 'meteor/session'
+import { Session } from 'meteor/session';
+// import '/api/userpresence.js';
 
 import { mouseSprite } from './mousesprite';
 
@@ -11,16 +12,9 @@ import './main.html';
 const allMice = [];
 const allIds = [];
 
-Template.body.onCreated(function() {
-  // this.autorun(()=>{
-  //   Session.set('usersNumber', allIds.length);
-  // })
-});
 
 //listen on notifications on the message event
 Notifications.on('message', function(message) {
-  // console.log(this.userId,this.subscriptionId);
-
   if (!allIds.includes(this.subscriptionId)) {
       const mouse = new mouseSprite( this.subscriptionId );
       allMice.push(mouse);
@@ -37,9 +31,21 @@ Notifications.on('message', function(message) {
   }
 });
 
+Template.body.onCreated(function() {
+  this.autorun(()=>{
+    this.subscribe('userPresence')
+    Session.set('usersNumber', allIds.length);
+  })
+});
 
 Template.body.rendered = function(){
 };
+
+Template.main.helpers({
+  getUsersCount: ()=>{
+    return Presences.find({}).count();
+  }
+})
 
 Template.body.events({
   'mousemove ' : function(e) {
