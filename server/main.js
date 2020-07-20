@@ -7,14 +7,18 @@ Notifications.permissions.read(function(userId, eventName) {
   return true;
 });
 
-Notifications.on('message', function(content) {
-    // this.onDisconnect  = onDisconnectCallback(this.id);
-    console.log('message on the server');
-  });
+Notifications.on('startup', function() {
+  this.onDisconnect  = ()=>{
+    const id  = this.subscriptionId;
+    onDisconnectCallback(id);
+  }
+});
 
-const onDisconnectCallback = function (e) {
-
-  console.log("onDisconnectCallback");
+const onDisconnectCallback = function (subscriptionId) {
+  console.log("onDisconnectCallback", subscriptionId);
+  Notifications.emit('disconnected',
+    subscriptionId
+  )
 };
 
 

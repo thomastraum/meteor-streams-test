@@ -16,6 +16,12 @@ class mouseSprite {
     this.sprite.style.transform = `translate(${x}px,${y}px)`;
   }
 
+  deleteMe(){
+    console.log('delete',  this.id);
+    const element = document.getElementById(this.id);
+    document.body.removeChild(element);
+  }
+
 }
 
 export { mouseSprite };
