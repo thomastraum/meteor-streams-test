@@ -1,24 +1,27 @@
-
 import { Notifications } from '/api/notifications.js';
 import '../api/userpresence.js';
 
 //allow any connected client to listen on the stream
 Notifications.permissions.read(function(userId, eventName) {
-  return true;
+    return true;
+});
+
+Notifications.permissions.write(function(eventName) {
+    return true;
 });
 
 Notifications.on('startup', function() {
-  this.onDisconnect  = ()=>{
-    const id  = this.subscriptionId;
-    onDisconnectCallback(id);
-  }
+    this.onDisconnect = () => {
+        const id = this.subscriptionId;
+        onDisconnectCallback(id);
+    }
 });
 
-const onDisconnectCallback = function (subscriptionId) {
-  console.log("onDisconnectCallback", subscriptionId);
-  Notifications.emit('disconnected',
-    subscriptionId
-  )
+const onDisconnectCallback = function(subscriptionId) {
+    console.log("onDisconnectCallback", subscriptionId);
+    Notifications.emit('disconnected',
+        subscriptionId
+    )
 };
 
 
